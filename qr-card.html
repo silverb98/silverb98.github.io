@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Familiar Stranger — QR Card (print)</title>
+<style>
+  /*
+    US business card: trim 3.5in x 2in, bleed 1/16in per side -> 3.625in x 2.125in.
+    Keep text inside the safe zone (0.125in inside trim).
+    To print: open this file in a browser -> Print -> Save as PDF,
+    paper size handled by @page. One page per side.
+  */
+  :root {
+    --bg: #0C0D11;
+    --text-primary: #FFFFFF;
+    --text-secondary: #A1A6B4;
+    --text-muted: #646A7A;
+    --date: #FF3D77;
+    --network: #2E8BFF;
+    --connect: #B266FF;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  @page { size: 3.625in 2.125in; margin: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    background: #23252e;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    padding: 32px 0;
+  }
+  .card {
+    width: 3.625in;
+    height: 2.125in;
+    background:
+      radial-gradient(circle at 12% 0%, rgba(255,45,110,0.16), transparent 45%),
+      radial-gradient(circle at 88% 12%, rgba(31,125,255,0.14), transparent 45%),
+      radial-gradient(circle at 50% 100%, rgba(178,102,255,0.12), transparent 50%),
+      var(--bg);
+    color: var(--text-primary);
+    overflow: hidden;
+    position: relative;
+    break-after: page;
+  }
+  .safe {
+    position: absolute;
+    inset: 0.1875in; /* bleed 0.0625 + safe 0.125 */
+    display: flex;
+  }
+
+  /* ---------- FRONT ---------- */
+  .front .safe { flex-direction: column; align-items: center; justify-content: center; gap: 0.06in; }
+  .front .mark { width: 0.62in; height: 0.62in; }
+  .front .name { font-size: 21px; font-weight: 900; letter-spacing: -0.5px; }
+  .front .hook { font-size: 10.5px; font-weight: 600; color: var(--text-secondary); }
+
+  /* ---------- BACK ---------- */
+  .back .safe { flex-direction: row; align-items: center; justify-content: space-between; gap: 0.15in; }
+  .back .pitch { display: flex; flex-direction: column; gap: 0.055in; }
+  .back .line { font-size: 10.5px; font-weight: 800; letter-spacing: 0.1px; }
+  .back .line .word { }
+  .back .line.date .word { color: var(--date); }
+  .back .line.network .word { color: var(--network); }
+  .back .line.connect .word { color: var(--connect); }
+  .back .cta { font-size: 8px; color: var(--text-muted); font-weight: 600; margin-top: 0.07in; }
+  .back .qr-panel {
+    background: #fff;
+    border-radius: 10px;
+    padding: 0.055in;
+    width: 1.15in;
+    height: 1.15in;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .back .qr-panel img { width: 100%; height: 100%; display: block; }
+
+  /* Screen-only helper text; hidden when printing */
+  .print-note {
+    max-width: 3.625in;
+    color: #c8ccd8;
+    font-size: 12px;
+    line-height: 1.6;
+    background: #16181F;
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  @media print {
+    body { background: none; padding: 0; gap: 0; display: block; }
+    .print-note { display: none; }
+  }
+</style>
+</head>
+<body>
+  <!-- FRONT -->
+  <div class="card front">
+    <div class="safe">
+      <svg class="mark" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="cA" x1="236" y1="788" x2="788" y2="236" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#FF2D6E"/><stop offset="1" stop-color="#FF5C8E"/>
+          </linearGradient>
+          <linearGradient id="cB" x1="236" y1="236" x2="788" y2="788" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#1F7DFF"/><stop offset="1" stop-color="#54A0FF"/>
+          </linearGradient>
+        </defs>
+        <path d="M 236 788 C 448 736 576 288 788 236" fill="none" stroke="url(#cA)" stroke-width="96" stroke-linecap="round"/>
+        <path d="M 236 236 C 448 288 576 736 788 788" fill="none" stroke="url(#cB)" stroke-width="96" stroke-linecap="round"/>
+        <circle cx="512" cy="512" r="46" fill="#B266FF"/>
+        <circle cx="512" cy="512" r="18" fill="#FFFFFF"/>
+      </svg>
+      <div class="name">Familiar Stranger</div>
+      <div class="hook">See who you've crossed paths with.</div>
+    </div>
+  </div>
+
+  <!-- BACK -->
+  <div class="card back">
+    <div class="safe">
+      <div class="pitch">
+        <div class="line date">Restore how you <span class="word">date</span>.</div>
+        <div class="line network">Restore how you <span class="word">network</span>.</div>
+        <div class="line connect">Restore how you <span class="word">connect</span>.</div>
+        <div class="cta">Scan to join the waitlist &middot; 18+</div>
+      </div>
+      <div class="qr-panel">
+        <img src="./qr.svg" alt="QR code to the Familiar Stranger waitlist" />
+      </div>
+    </div>
+  </div>
+
+  <div class="print-note">
+    <strong>Print notes:</strong> each card face is exactly 3.625&times;2.125in (3.5&times;2in trim + 1/16in bleed).
+    Print &rarr; Save as PDF gives a 2-page file (front, back) ready for any card printer (Vistaprint&nbsp;&middot;&nbsp;Moo&nbsp;&middot;&nbsp;local shop).
+    <strong>Before printing:</strong> regenerate the QR with the real URL &mdash; <code>node scripts/generate-qr.js https://your-real-url</code> &mdash; and test-scan it with your phone from this page.
+  </div>
+</body>
+</html>
