@@ -144,6 +144,29 @@
   .status.success { color: #3DDC97; }
   .status.error { color: #FF5A6E; }
 
+  .mission-strong { color: var(--text-secondary); font-weight: 800; }
+
+  .founder-banner {
+    background: var(--surface);
+    border: 1px solid rgba(245, 194, 107, 0.45);
+    border-radius: 16px;
+    padding: 16px 18px;
+    text-align: center;
+    margin-bottom: 28px;
+  }
+  .founder-title { color: #F5C26B; font-size: 13.5px; font-weight: 800; letter-spacing: 2px; }
+  .founder-sub { color: var(--text-primary); font-size: 14px; font-weight: 700; margin-top: 7px; line-height: 1.5; }
+  .founder-note { color: var(--text-muted); font-size: 12px; font-weight: 600; margin-top: 6px; }
+
+  .how {
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 28px;
+  }
+  .how b { color: var(--text-primary); }
+
   .fineprint {
     text-align: center;
     font-size: 12px;
@@ -183,31 +206,48 @@
 
     <h1>Familiar Stranger</h1>
     <p class="headline">See who you've crossed paths with.</p>
-    <p class="mission">Restore how you network. Restore how you date. Restore how you connect.</p>
+    <p class="mission">
+      No feed. No followers. No algorithm.<br />
+      Just the people whose paths keep crossing yours —<br />
+      your coffee shop, your gym, your Friday spot.<br />
+      <span class="mission-strong">A social network that unites. Built on real life.</span>
+    </p>
+
+    <div class="founder-banner">
+      <div class="founder-title">&#127963;&nbsp; FIRST 500 ACCOUNTS</div>
+      <div class="founder-sub">Everything free, for life — and the Founder badge to prove you were first.</div>
+      <div class="founder-note">The waitlist is your head start. Founding closes when spot 500 fills.</div>
+    </div>
 
     <div class="focuses">
       <div class="focus-card">
-        <div class="focus-dot date">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#FF3D77" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+        <div class="focus-dot connect">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#B266FF" stroke-width="2"><circle cx="9" cy="7" r="4"/><path d="M17 11a4 4 0 1 0 0-8"/><path d="M1 21v-1a7 7 0 0 1 14 0v1"/><path d="M23 21v-1a7 7 0 0 0-5-6.7"/></svg>
         </div>
-        <div class="label">Date</div>
-        <div class="desc">People you've crossed paths with, romantically</div>
+        <div class="label">Connect</div>
+        <div class="desc">Friends, run clubs, your scene — already around you</div>
       </div>
       <div class="focus-card">
         <div class="focus-dot network">
           <svg viewBox="0 0 24 24" fill="none" stroke="#2E8BFF" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
         </div>
         <div class="label">Network</div>
-        <div class="desc">Business connections you've actually crossed</div>
+        <div class="desc">The professionals you keep almost-meeting</div>
       </div>
       <div class="focus-card">
-        <div class="focus-dot connect">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#B266FF" stroke-width="2"><circle cx="9" cy="7" r="4"/><path d="M17 11a4 4 0 1 0 0-8"/><path d="M1 21v-1a7 7 0 0 1 14 0v1"/><path d="M23 21v-1a7 7 0 0 0-5-6.7"/></svg>
+        <div class="focus-dot date">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#FF3D77" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
         </div>
-        <div class="label">Connect</div>
-        <div class="desc">Friends, communities, shared interests nearby</div>
+        <div class="label">Date</div>
+        <div class="desc">The one you noticed? You've crossed 3&times; already</div>
       </div>
     </div>
+
+    <p class="how">
+      <b>How it works:</b> live your normal life. When your path physically crosses
+      another member's — same place, same window of time — they appear in your
+      crossings. <b>No endless strangers. Only your actual world.</b>
+    </p>
 
     <form id="waitlist-form">
       <input type="email" id="email" placeholder="you@email.com" required autocomplete="email" />
