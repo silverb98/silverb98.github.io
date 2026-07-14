@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Set a new password · Familiar Stranger</title>
+<style>
+  :root {
+    --ink: #0A0C11; --surface: #101319; --text: #F2EDE3;
+    --sub: #9AA1B0; --muted: #565E6E; --gold: #E3B564; --line: rgba(255,255,255,0.08);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    background: var(--ink); color: var(--text); padding: 24px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  .card {
+    width: 100%; max-width: 420px; background: var(--surface);
+    border: 1px solid var(--line); border-radius: 24px; padding: 32px 26px;
+  }
+  .mark { display: block; margin: 0 auto 18px; }
+  h1 { font-family: Georgia, "Times New Roman", serif; font-size: 28px; margin: 0 0 8px; font-weight: 700; }
+  p { color: var(--sub); font-size: 15px; line-height: 1.5; margin: 0 0 20px; }
+  label { display: block; color: var(--muted); font-size: 11px; font-weight: 800; letter-spacing: 2px; margin-bottom: 8px; }
+  input {
+    width: 100%; background: var(--ink); border: 1px solid var(--line); border-radius: 14px;
+    color: var(--text); padding: 14px 16px; font-size: 16px; outline: none;
+  }
+  input:focus { border-color: var(--gold); }
+  button {
+    width: 100%; margin-top: 18px; background: var(--gold); color: var(--ink);
+    border: 0; border-radius: 999px; padding: 15px; font-size: 16px; font-weight: 800; cursor: pointer;
+  }
+  button:disabled { opacity: .4; cursor: default; }
+  .msg { margin-top: 16px; font-size: 14px; line-height: 1.5; }
+  .ok { color: var(--gold); }
+  .err { color: #E85C87; }
+  .fine { color: var(--muted); font-size: 12px; margin-top: 18px; text-align: center; }
+</style>
+</head>
+<body>
+  <main class="card">
+    <svg class="mark" width="44" height="44" viewBox="0 0 1024 1024" aria-hidden="true">
+      <path d="M 236 788 C 448 736 576 288 788 236" fill="none" stroke="#E3B564" stroke-width="96" stroke-linecap="round"/>
+      <path d="M 236 236 C 448 288 576 736 788 788" fill="none" stroke="#A87F3D" stroke-width="96" stroke-linecap="round"/>
+      <circle cx="512" cy="512" r="46" fill="#F2EDE3"/><circle cx="512" cy="512" r="18" fill="#0A0C11"/>
+    </svg>
+
+    <h1>Set a new password</h1>
+    <p id="lead">Pick something you'll remember. You'll be signed straight back in.</p>
+
+    <form id="form">
+      <label for="pw">NEW PASSWORD</label>
+      <input id="pw" type="password" minlength="8" placeholder="At least 8 characters" autocomplete="new-password" required />
+      <button id="go" type="submit">Save new password</button>
+    </form>
+
+    <div id="msg" class="msg"></div>
+    <p class="fine">Familiar Stranger &middot; your town, in person</p>
+  </main>
+
+<script type="module">
+  const SUPABASE_URL = "https://wldmsfmhzoydxrdvhotz.supabase.co";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndsZG1zZm1oem95ZHhyZHZob3R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5NDExMjYsImV4cCI6MjA5ODUxNzEyNn0.FBzUovKvyUxrN0bp8BlYWP_FDMED2S6wwXg1RYarKwI";
+
+  const form = document.getElementById('form');
+  const pw = document.getElementById('pw');
+  const go = document.getElementById('go');
+  const msg = document.getElementById('msg');
+  const lead = document.getElementById('lead');
+
+  // Supabase puts the recovery session in the URL fragment.
+  const params = new URLSearchParams(location.hash.replace(/^#/, ''));
+  const accessToken = params.get('access_token');
+  const type = params.get('type');
+
+  if (!accessToken || type !== 'recovery') {
+    form.style.display = 'none';
+    lead.textContent = 'This reset link is invalid or has expired.';
+    msg.className = 'msg err';
+    msg.textContent = 'Open the most recent “reset your password” email, or request a new link from the app.';
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (pw.value.length < 8) return;
+    go.disabled = true;
+    go.textContent = 'Saving…';
+    msg.textContent = '';
+
+    try {
+      const res = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
+        method: 'PUT',
+        headers: {
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ password: pw.value }),
+      });
+
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(body.msg || body.error_description || 'That link may have expired.');
+      }
+
+      form.style.display = 'none';
+      lead.textContent = 'Password updated.';
+      msg.className = 'msg ok';
+      msg.textContent = 'Open Familiar Stranger and sign in with your new password. Welcome back.';
+    } catch (err) {
+      msg.className = 'msg err';
+      msg.textContent = err.message || 'Something went wrong — request a fresh link from the app.';
+      go.disabled = false;
+      go.textContent = 'Save new password';
+    }
+  });
+</script>
+</body>
+</html>
