@@ -3,25 +3,24 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Familiar Stranger — See who you've crossed paths with</title>
-<meta name="description" content="A new way to date, network, and connect — with people you've actually crossed paths with in real life." />
+<title>Familiar — Local groups &amp; gatherings</title>
+<meta name="description" content="Run clubs, trivia nights, neighborhood cleanups — the real things happening around you this week. Find one, start one, show up in person." />
 <style>
   :root {
-    --bg: #0C0D11;
-    --surface: #16181F;
-    --surface-elevated: #1F222C;
-    --hairline: rgba(255,255,255,0.08);
-    --text-primary: #FFFFFF;
-    --text-secondary: #A1A6B4;
-    --text-muted: #646A7A;
-    --date: #FF3D77;
-    --network: #2E8BFF;
-    --connect: #B266FF;
+    --ink: #0A0C11;
+    --surface: #14171F;
+    --hairline: rgba(242,237,227,0.09);
+    --text: #F2EDE3;
+    --sub: #9AA1B0;
+    --muted: #565E6E;
+    --gold: #E3B564;
+    --gold-dim: #A98544;
+    --serif: Georgia, "Times New Roman", serif;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body {
-    background: var(--bg);
-    color: var(--text-primary);
+    background: var(--ink);
+    color: var(--text);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
   }
@@ -32,17 +31,15 @@
     align-items: center;
     padding: 48px 20px 40px;
     background:
-      radial-gradient(circle at 15% 0%, rgba(255,61,119,0.16), transparent 45%),
-      radial-gradient(circle at 85% 15%, rgba(46,139,255,0.14), transparent 45%),
-      radial-gradient(circle at 50% 100%, rgba(178,102,255,0.12), transparent 50%),
-      var(--bg);
+      radial-gradient(circle at 50% 0%, rgba(227,181,100,0.13), transparent 55%),
+      var(--ink);
   }
   .wrap { width: 100%; max-width: 440px; }
 
   .icon {
     width: 64px; height: 64px;
     border-radius: 32px;
-    background: rgba(255,255,255,0.08);
+    background: rgba(242,237,227,0.06);
     display: flex; align-items: center; justify-content: center;
     margin: 0 auto 18px;
     border: 1px solid var(--hairline);
@@ -51,32 +48,32 @@
 
   h1 {
     text-align: center;
-    font-size: 36px;
-    font-weight: 900;
-    letter-spacing: -1px;
-    margin-bottom: 10px;
+    font-family: var(--serif);
+    font-size: 44px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    margin-bottom: 12px;
   }
   .headline {
     text-align: center;
     font-size: 18px;
     font-weight: 600;
-    color: var(--text-secondary);
+    color: var(--text);
     line-height: 1.4;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
   .mission {
     text-align: center;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text-muted);
+    font-size: 14px;
+    color: var(--sub);
     line-height: 1.6;
-    margin-bottom: 36px;
+    margin-bottom: 34px;
   }
 
   .focuses {
     display: flex;
     gap: 10px;
-    margin-bottom: 36px;
+    margin-bottom: 34px;
   }
   .focus-card {
     flex: 1;
@@ -90,14 +87,12 @@
     width: 34px; height: 34px;
     border-radius: 17px;
     margin: 0 auto 10px;
+    background: rgba(227,181,100,0.16);
     display: flex; align-items: center; justify-content: center;
   }
-  .focus-dot.date { background: rgba(255,61,119,0.18); }
-  .focus-dot.network { background: rgba(46,139,255,0.18); }
-  .focus-dot.connect { background: rgba(178,102,255,0.18); }
   .focus-dot svg { width: 16px; height: 16px; }
   .focus-card .label { font-size: 13px; font-weight: 800; margin-bottom: 4px; }
-  .focus-card .desc { font-size: 11px; color: var(--text-muted); line-height: 1.4; }
+  .focus-card .desc { font-size: 11px; color: var(--muted); line-height: 1.4; }
 
   form {
     display: flex;
@@ -109,15 +104,15 @@
     width: 100%;
     background: var(--surface);
     border: 1px solid var(--hairline);
-    color: var(--text-primary);
+    color: var(--text);
     border-radius: 14px;
     padding: 16px;
     font-size: 16px;
     outline: none;
     transition: border-color 0.15s ease;
   }
-  input[type="email"]:focus { border-color: rgba(255,255,255,0.3); }
-  input[type="email"]::placeholder { color: var(--text-muted); }
+  input[type="email"]:focus { border-color: rgba(227,181,100,0.5); }
+  input[type="email"]::placeholder { color: var(--muted); }
 
   button {
     width: 100%;
@@ -127,8 +122,8 @@
     font-size: 16px;
     font-weight: 800;
     cursor: pointer;
-    background: linear-gradient(90deg, var(--date), var(--connect), var(--network));
-    color: #fff;
+    background: var(--gold);
+    color: var(--ink);
     transition: opacity 0.15s ease, transform 0.1s ease;
   }
   button:disabled { opacity: 0.6; cursor: default; }
@@ -141,113 +136,66 @@
     min-height: 20px;
     margin-bottom: 8px;
   }
-  .status.success { color: #3DDC97; }
+  .status.success { color: #4FAE7F; }
   .status.error { color: #FF5A6E; }
-
-  .mission-strong { color: var(--text-secondary); font-weight: 800; }
-
-  .founder-banner {
-    background: var(--surface);
-    border: 1px solid rgba(245, 194, 107, 0.45);
-    border-radius: 16px;
-    padding: 16px 18px;
-    text-align: center;
-    margin-bottom: 28px;
-  }
-  .founder-title { color: #F5C26B; font-size: 13.5px; font-weight: 800; letter-spacing: 2px; }
-  .founder-sub { color: var(--text-primary); font-size: 14px; font-weight: 700; margin-top: 7px; line-height: 1.5; }
-  .founder-note { color: var(--text-muted); font-size: 12px; font-weight: 600; margin-top: 6px; }
-
-  .how {
-    text-align: center;
-    font-size: 13px;
-    color: var(--text-secondary);
-    line-height: 1.7;
-    margin-bottom: 28px;
-  }
-  .how b { color: var(--text-primary); }
 
   .fineprint {
     text-align: center;
     font-size: 12px;
-    color: var(--text-muted);
+    color: var(--muted);
     line-height: 1.6;
     margin-top: 24px;
   }
   .legal-links {
     text-align: center;
     font-size: 11.5px;
-    color: var(--text-muted);
+    color: var(--muted);
     line-height: 1.8;
     margin-top: 20px;
   }
-  .legal-links a { color: var(--text-muted); }
-  .legal-links a:hover { color: var(--text-secondary); }
+  .legal-links a { color: var(--muted); }
+  .legal-links a:hover { color: var(--sub); }
 </style>
 </head>
 <body>
   <div class="wrap">
     <div class="icon">
+      <!-- Two paths becoming one, in the app’s gold and cream. -->
       <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="lgA" x1="236" y1="788" x2="788" y2="236" gradientUnits="userSpaceOnUse">
-            <stop offset="0" stop-color="#FF2D6E"/><stop offset="1" stop-color="#FF5C8E"/>
-          </linearGradient>
-          <linearGradient id="lgB" x1="236" y1="236" x2="788" y2="788" gradientUnits="userSpaceOnUse">
-            <stop offset="0" stop-color="#1F7DFF"/><stop offset="1" stop-color="#54A0FF"/>
-          </linearGradient>
-        </defs>
-        <path d="M 236 788 C 448 736 576 288 788 236" fill="none" stroke="url(#lgA)" stroke-width="96" stroke-linecap="round"/>
-        <path d="M 236 236 C 448 288 576 736 788 788" fill="none" stroke="url(#lgB)" stroke-width="96" stroke-linecap="round"/>
-        <circle cx="512" cy="512" r="46" fill="#B266FF"/>
-        <circle cx="512" cy="512" r="18" fill="#FFFFFF"/>
+        <path d="M 236 788 C 448 736 576 288 788 236" fill="none" stroke="#F2EDE3" stroke-width="96" stroke-linecap="round"/>
+        <path d="M 236 236 C 448 288 576 736 788 788" fill="none" stroke="#E3B564" stroke-width="96" stroke-linecap="round"/>
+        <circle cx="512" cy="512" r="46" fill="#E3B564"/>
+        <circle cx="512" cy="512" r="18" fill="#0A0C11"/>
       </svg>
     </div>
 
-    <h1>Familiar Stranger</h1>
-    <p class="headline">See who you've crossed paths with.</p>
-    <p class="mission">
-      No feed. No followers. No algorithm.<br />
-      Just the people whose paths keep crossing yours —<br />
-      your coffee shop, your gym, your Friday spot.<br />
-      <span class="mission-strong">A social network that unites. Built on real life.</span>
-    </p>
-
-    <div class="founder-banner">
-      <div class="founder-title">&#127963;&nbsp; FIRST 500 ACCOUNTS</div>
-      <div class="founder-sub">Everything free, for life — and the Founder badge to prove you were first.</div>
-      <div class="founder-note">The waitlist is your head start. Founding closes when spot 500 fills.</div>
-    </div>
+    <h1>Familiar</h1>
+    <p class="headline">Real groups. Real places. In person.</p>
+    <p class="mission">Run clubs, trivia nights, neighborhood cleanups &mdash; the things actually happening around you this week.</p>
 
     <div class="focuses">
       <div class="focus-card">
-        <div class="focus-dot connect">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#B266FF" stroke-width="2"><circle cx="9" cy="7" r="4"/><path d="M17 11a4 4 0 1 0 0-8"/><path d="M1 21v-1a7 7 0 0 1 14 0v1"/><path d="M23 21v-1a7 7 0 0 0-5-6.7"/></svg>
+        <div class="focus-dot">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#E3B564" stroke-width="2"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
         </div>
-        <div class="label">Connect</div>
-        <div class="desc">Friends, run clubs, your scene — already around you</div>
+        <div class="label">Find one</div>
+        <div class="desc">Groups meeting near you, at real places</div>
       </div>
       <div class="focus-card">
-        <div class="focus-dot network">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#2E8BFF" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+        <div class="focus-dot">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#E3B564" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>
         </div>
-        <div class="label">Network</div>
-        <div class="desc">The professionals you keep almost-meeting</div>
+        <div class="label">Start one</div>
+        <div class="desc">Pick a place, say when, your town finds it</div>
       </div>
       <div class="focus-card">
-        <div class="focus-dot date">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#FF3D77" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+        <div class="focus-dot">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#E3B564" stroke-width="2"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.9 8.9 0 0 1-4-.9L3 21l1.9-4.9A8.4 8.4 0 0 1 4 11.5a8.4 8.4 0 0 1 8.5-8.4 8.4 8.4 0 0 1 8.5 8.4z"/></svg>
         </div>
-        <div class="label">Date</div>
-        <div class="desc">The one you noticed? You've crossed 3&times; already</div>
+        <div class="label">Show up</div>
+        <div class="desc">Every group gets a board to sort the details</div>
       </div>
     </div>
-
-    <p class="how">
-      <b>How it works:</b> live your normal life. When your path physically crosses
-      another member's — same place, same window of time — they appear in your
-      crossings. <b>No endless strangers. Only your actual world.</b>
-    </p>
 
     <form id="waitlist-form">
       <input type="email" id="email" placeholder="you@email.com" required autocomplete="email" />
@@ -256,7 +204,7 @@
     <p class="status" id="status"></p>
 
     <p class="fineprint">
-      We'll let you know the moment Familiar Stranger is ready near you.<br />
+      We'll let you know the moment Familiar is ready near you.<br />
       No spam. Ever. Unsubscribe anytime. 18+ only.
     </p>
 
@@ -314,7 +262,7 @@
       } catch (err) {
         statusEl.textContent = "Couldn't connect — check your internet and try again.";
         statusEl.className = "status error";
-      } finally {
+      }  finally {
         submitBtn.disabled = false;
         submitBtn.textContent = "Join the waitlist";
       }

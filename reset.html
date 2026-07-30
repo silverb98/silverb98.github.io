@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Set a new password · Familiar Stranger</title>
+<title>Set a new password · Familiar</title>
 <style>
   :root {
     --ink: #0A0C11; --surface: #101319; --text: #F2EDE3;
@@ -57,7 +57,7 @@
     </form>
 
     <div id="msg" class="msg"></div>
-    <p class="fine">Familiar Stranger &middot; your town, in person</p>
+    <p class="fine">Familiar &middot; your town, in person</p>
   </main>
 
 <script type="module">
@@ -108,7 +108,7 @@
       form.style.display = 'none';
       lead.textContent = 'Password updated.';
       msg.className = 'msg ok';
-      msg.textContent = 'Open Familiar Stranger and sign in with your new password. Welcome back.';
+      msg.textContent = 'Open Familiar and sign in with your new password. Welcome back.';
     } catch (err) {
       msg.className = 'msg err';
       msg.textContent = err.message || 'Something went wrong — request a fresh link from the app.';
