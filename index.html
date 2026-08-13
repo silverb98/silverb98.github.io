@@ -253,16 +253,29 @@
     const SUPABASE_URL = "https://wldmsfmhzoydxrdvhotz.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndsZG1zZm1oem95ZHhyZHZob3R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5NDExMjYsImV4cCI6MjA5ODUxNzEyNn0.FBzUovKvyUxrN0bp8BlYWP_FDMED2S6wwXg1RYarKwI";
 
-    // Mobile in-app browsers (Instagram, Facebook, Messages previews) and some
-    // embedded webviews swallow an anchor's default navigation, so the button
-    // renders but tapping it does nothing. Drive the navigation ourselves so
-    // there is exactly one code path, everywhere. Without JS the plain href
-    // still works.
+    // The Download button has to survive in-app browsers. Instagram's webview
+    // renders the button fine but never hands an https://apps.apple.com link
+    // off to iOS, so tapping it does nothing at all.
+    //
+    // itms-apps:// is the scheme iOS registers for the App Store, and webviews
+    // pass unknown schemes straight through to the OS. Try that first, then
+    // fall back to https shortly after for desktop and any browser that
+    // ignores it. If the App Store opens, the page is already backgrounded and
+    // the fallback is harmless.
     const getApp = document.getElementById("get-app");
     if (getApp) {
       getApp.addEventListener("click", function (e) {
         e.preventDefault();
-        window.location.href = getApp.getAttribute("href");
+        var https = getApp.getAttribute("href");
+        var itms = https.replace(/^https:\/\//, "itms-apps://");
+        var fallback = setTimeout(function () {
+          window.location.href = https;
+        }, 600);
+        // If the OS takes over, the page is hidden and we cancel the fallback.
+        document.addEventListener("visibilitychange", function () {
+          if (document.hidden) { clearTimeout(fallback); }
+        });
+        window.location.href = itms;
       });
     }
 
