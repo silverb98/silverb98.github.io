@@ -226,7 +226,8 @@
       </div>
     </div>
 
-    <a class="appstore" href="https://apps.apple.com/us/app/familiar-faces-and-places/id6795559099">
+    <a class="appstore" id="get-app" rel="noopener"
+       href="https://apps.apple.com/us/app/familiar-faces-and-places/id6795559099">
       Download on the App Store
     </a>
 
@@ -251,6 +252,19 @@
   <script>
     const SUPABASE_URL = "https://wldmsfmhzoydxrdvhotz.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndsZG1zZm1oem95ZHhyZHZob3R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5NDExMjYsImV4cCI6MjA5ODUxNzEyNn0.FBzUovKvyUxrN0bp8BlYWP_FDMED2S6wwXg1RYarKwI";
+
+    // Mobile in-app browsers (Instagram, Facebook, Messages previews) and some
+    // embedded webviews swallow an anchor's default navigation, so the button
+    // renders but tapping it does nothing. Drive the navigation ourselves so
+    // there is exactly one code path, everywhere. Without JS the plain href
+    // still works.
+    const getApp = document.getElementById("get-app");
+    if (getApp) {
+      getApp.addEventListener("click", function (e) {
+        e.preventDefault();
+        window.location.href = getApp.getAttribute("href");
+      });
+    }
 
     const form = document.getElementById("waitlist-form");
     const emailInput = document.getElementById("email");
